@@ -14,7 +14,6 @@ export class CockpitComponent implements OnInit {
 
   constructor() { }
 
-  // onAddServer(serverData: {serverName: string, serverContent: string}) {
   onAddServer() {
     this.serverCreated.emit({
       serverName: this.newServerName,
@@ -22,7 +21,6 @@ export class CockpitComponent implements OnInit {
     });
   }
 
-  // onAddBlueprint(blueprintData: {serverName: string, serverContent: string}) {
   onAddBlueprint() {
     this.blueprintCreated.emit({
       serverName: this.newServerName,
