@@ -12,7 +12,8 @@ import {
   SimpleChanges,
   ViewEncapsulation,
   ViewChild,
-  ElementRef
+  ElementRef,
+  ContentChild
 } from '@angular/core';
 
 @Component({
@@ -33,6 +34,7 @@ export class ServerElementComponent implements
   // @Input('srvElement') element: {type: string, name: string, content: string};
   @Input() name: string;
   @ViewChild('heading',{static: true}) header: ElementRef;
+  @ContentChild('contentParagraph', {static: true}) paragraph: ElementRef;
 
   constructor() {
     console.log("constructor called!");
@@ -41,6 +43,7 @@ export class ServerElementComponent implements
   ngOnInit(): void {
     console.log("ngOnInit() called!");
     console.log("Text Content: " + this.header.nativeElement.textContent);
+    console.log("Text Content of paragraph: " + this.paragraph.nativeElement.textContent);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -63,6 +66,7 @@ export class ServerElementComponent implements
   ngAfterViewInit(): void {
     console.log("ngAfterViewInit() called!")
     console.log("Text Content: " + this.header.nativeElement.textContent);
+    console.log("Text Content of paragraph: " + this.paragraph.nativeElement.textContent);
   }
 
   ngAfterViewChecked(): void {
