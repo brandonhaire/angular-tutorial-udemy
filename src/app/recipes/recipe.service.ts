@@ -1,3 +1,4 @@
+import { EventEmitter } from "@angular/core";
 import { Recipe } from "./recipe.model";
 
 export class RecipeService {
@@ -5,7 +6,9 @@ export class RecipeService {
   private recipes: Recipe[] = [
     new Recipe("A Test Recipe", "This is simply a test", this.imgPath),
     new Recipe("Another Test Recipe", "This is simply a test", this.imgPath)
-  ];;
+  ];
+
+  recipeSelected = new EventEmitter<Recipe>();
 
   getRecipes(): Recipe[]{
     return this.recipes.slice();
