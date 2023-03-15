@@ -37,10 +37,11 @@ export class AppComponent implements OnInit {
     return (this.signupForm.get('hobbies') as FormArray).controls;
   }
 
-  forbiddenNames(control: FormControl): {[s: string]: boolean} {
+  forbiddenNames(control: FormControl): {[s: string]:  boolean} {
     if (this.forbiddenUsernames.indexOf(control.value) !== -1){
       return {'nameisForbidden': true};
     }
+    // return null;
     return {'nameisForbidden': false};
   }
 }
