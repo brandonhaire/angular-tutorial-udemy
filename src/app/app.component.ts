@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
     this.signupForm = new FormGroup({
       userData: new FormGroup({
         username: new FormControl(null, [Validators.required, this.forbiddenNames.bind(this)]),
-        email: new FormControl(null, [Validators.email, Validators.required])
+        email: new FormControl(null, [Validators.email, Validators.required], this.forbiddenEmails)
       }),
       gender: new FormControl(null, Validators.required),
       hobbies: new FormArray([])
@@ -38,22 +38,23 @@ export class AppComponent implements OnInit {
     return (this.signupForm.get('hobbies') as FormArray).controls;
   }
 
-  forbiddenNames (control: FormControl): { [s: string]: boolean } {
+  forbiddenNames(control: FormControl): { [s: string]: boolean } {
     if (this.forbiddenUsernames.indexOf(control.value) !== -1) {
       return { 'nameIsForbidden': true };
     }
     return null;
-    // return { 'nameisForbidden': false };
   }
 
-  // forbiddenEmails(control: FormControl): Promise<any> | Observable<any> {
-  //   const promise = new Promise<any>((resolve, reject) => {
-  //     setTimeout(() => {
-  //       if (control.value === 'test@test.com') {
-  //         resolve({ 'emailIsForbidden': true });
-  //       } else {
-  //         resolve(null);
-  //       }
-  //     }, 1500);
-  //   }
+  forbiddenEmails(control: FormControl): Promise<any> | Observable<any> {
+    const promise = new Promise<any>((resolve, reject) => {
+      setTimeout(() => {
+        if (control.value === 'test@test.com') {
+          resolve({ 'emailIsForbidden': true });
+        } else {
+          resolve(null);
+        }
+      }, 1500);
+    });
+    return promise;
+  }
 }
