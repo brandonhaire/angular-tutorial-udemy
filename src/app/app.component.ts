@@ -24,8 +24,13 @@ export class AppComponent implements OnInit {
   }
 
   onFetchPosts() {
-    this.showPacMan();
-    this.postsService.fetchPosts();
+    this.isFetching = true;
+    this.postsService.fetchPosts().subscribe(posts => {
+      this.loadedPosts = posts;
+      setTimeout(() => {
+        this.isFetching = false;
+      }, 1500);
+    });
   }
 
   showPacMan() {

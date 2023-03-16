@@ -19,7 +19,7 @@ export class PostsService {
     }
 
     fetchPosts() {
-        this.http
+        return this.http
             .get<{ [key: string]: Post }>('https://udemy-da4cd-default-rtdb.firebaseio.com/posts.json')
             .pipe(
                 map(responseData => {
@@ -31,8 +31,6 @@ export class PostsService {
                     }
                     return postsArray;
                 })
-            )
-            .subscribe(posts => {
-            });
+            );
     }
 }
