@@ -1,0 +1,216 @@
+diff --git a/src/app/app.component.html b/src/app/app.component.html
+index 52669f7..caa4794 100644
+--- a/src/app/app.component.html
++++ b/src/app/app.component.html
+@@ -1,56 +1,60 @@
+ <div class="container">
+-    <div class="row">
+-      <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+-        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+-          <div formGroupName="userData">
+-            <div class="form-group">
+-              <label for="username">Username</label>
+-              <input
+-                type="text"
+-                id="username"
+-                formControlName="username"
+-                class="form-control">
+-              <span 
+-                *ngIf="!signupForm.get('userData.username').valid && signupForm.get('userData.username').touched"
+-                class="help-block">
+-                <span *ngIf="signupForm.get('userData.username').errors['nameIsForbidden']">This name is invalid!</span>
+-                <span *ngIf="signupForm.get('userData.username').errors['required']">This field is required!</span>
+-                </span>
+-            </div>
+-            <div class="form-group">
+-              <label for="email">email</label>
+-              <input
+-                type="text"
+-                id="email"
+-                formControlName="email"
+-                class="form-control">
+-              <span 
+-                *ngIf="!signupForm.get('userData.email').valid && signupForm.get('userData.email').touched" class="help-block">
+-                <span 
+-                  class="help-block"
+-                  *ngIf="signupForm.get('userData.email').errors['emailIsForbidden']">Please enter a valid email!</span></span>
+-            </div>
++  <div class="row">
++    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
++      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
++        <div formGroupName="userData">
++          <div class="form-group">
++            <label for="username">Username</label>
++            <input
++              type="text"
++              id="username"
++              formControlName="username"
++              class="form-control">
++            <span
++              *ngIf="!signupForm.get('userData.username').valid && signupForm.get('userData.username').touched"
++              class="help-block">
++              <span *ngIf="signupForm.get('userData.username').errors['nameIsForbidden']">This name is invalid!</span>
++              <span *ngIf="signupForm.get('userData.username').errors['required']">This field is required!</span>
++
++            </span>
+           </div>
+-          <div class="radio" *ngFor="let gender of genders">
+-            <label>
+-              <input
+-                type="radio"
+-                formControlName="gender"
+-                [value]="gender">{{ gender }}
+-            </label>
++          <div class="form-group">
++            <label for="email">email</label>
++            <input
++              type="text"
++              id="email"
++              formControlName="email"
++              class="form-control">
++            <span
++              *ngIf="!signupForm.get('userData.email').valid && signupForm.get('userData.email').touched"
++              class="help-block">Please enter a valid email!</span>
+           </div>
+-          <div formArrayName="hobbies">
+-            <h4>Your Hobbies</h4>
+-              <button class="btn btn-default" type="button" (click)="onAddHobby()">Add Hobby</button>
+-          </div>
+-          <span 
+-              *ngIf="!signupForm.valid && signupForm.touched"
+-              class="help-block">Please enter a valid data!</span>
+-          <button class="btn btn-primary" type="submit">Submit</button>
+-          <div class="form-group" *ngFor="let hobbyControl of controls; let i = index">
++        </div>
++        <div class="radio" *ngFor="let gender of genders">
++          <label>
++            <input
++              type="radio"
++              formControlName="gender"
++              [value]="gender">{{ gender }}
++          </label>
++        </div>
++        <div formArrayName="hobbies">
++          <h4>Your Hobbies</h4>
++          <button
++            class="btn btn-default"
++            type="button"
++            (click)="onAddHobby()">Add Hobby</button>
++          <div
++            class="form-group"
++            *ngFor="let hobbyControl of hobbyControls; let i = index">
+             <input type="text" class="form-control" [formControlName]="i">
+           </div>
+-        </form>
+-      </div>
++        </div>
++        <span
++          *ngIf="!signupForm.valid && signupForm.touched"
++          class="help-block">Please enter valid data!</span>
++        <button class="btn btn-primary" type="submit">Submit</button>
++      </form>
+     </div>
+   </div>
++</div>
+diff --git a/src/app/app.component.ts b/src/app/app.component.ts
+index 91f5b85..c01d354 100644
+--- a/src/app/app.component.ts
++++ b/src/app/app.component.ts
+@@ -1,41 +1,56 @@
+-import { OnInit } from '@angular/core';
+-import { Component } from '@angular/core';
++import { Component, OnInit } from '@angular/core';
+ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+ import { Observable } from 'rxjs';
+ 
++
+ @Component({
+   selector: 'app-root',
+   templateUrl: './app.component.html',
+-  styleUrls: ['./app.component.css']
++  styleUrls: ['./app.component.css'],
+ })
+ export class AppComponent implements OnInit {
+-
+   genders = ['male', 'female'];
+   signupForm: FormGroup;
+   forbiddenUsernames = ['Chris', 'Anna'];
+ 
+-  ngOnInit(): void {
++  get hobbyControls() {
++    return (this.signupForm.get('hobbies') as FormArray).controls;
++  }
++
++  constructor() {}
++
++  ngOnInit() {
+     this.signupForm = new FormGroup({
+       userData: new FormGroup({
+-        username: new FormControl(null, [Validators.required, this.forbiddenNames.bind(this)]),
+-        email: new FormControl(null, [Validators.email, Validators.required], this.forbiddenEmails)
++        username: new FormControl(null, [
++          Validators.required,
++          this.forbiddenNames.bind(this),
++        ]),
++        email: new FormControl(
++          null,
++          [Validators.required, Validators.email],
++          this.forbiddenEmails
++        ),
+       }),
+-      gender: new FormControl(null, Validators.required),
+-      hobbies: new FormArray([])
++      gender: new FormControl('male'),
++      hobbies: new FormArray([]),
+     });
+-    this.signupForm.statusChanges.subscribe(
+-      (value) => console.log(value)
+-    );
+     // this.signupForm.valueChanges.subscribe(
+     //   (value) => console.log(value)
+     // );
++    this.signupForm.statusChanges.subscribe((status) => console.log(status));
+     this.signupForm.setValue({
+-      'userData': {
+-        'username' : 'Max',
+-        'email': 'max@test.com'
++      userData: {
++        username: 'Max',
++        email: 'max@test.com',
++      },
++      gender: 'male',
++      hobbies: [],
++    });
++    this.signupForm.patchValue({
++      userData: {
++        username: 'Anna',
+       },
+-      'gender': 'male',
+-      'hobbies': []
+     });
+   }
+ 
+@@ -49,13 +64,9 @@ export class AppComponent implements OnInit {
+     (<FormArray>this.signupForm.get('hobbies')).push(control);
+   }
+ 
+-  get controls() {
+-    return (this.signupForm.get('hobbies') as FormArray).controls;
+-  }
+-
+   forbiddenNames(control: FormControl): { [s: string]: boolean } {
+     if (this.forbiddenUsernames.indexOf(control.value) !== -1) {
+-      return { 'nameIsForbidden': true };
++      return { nameIsForbidden: true };
+     }
+     return null;
+   }
+@@ -64,7 +75,7 @@ export class AppComponent implements OnInit {
+     const promise = new Promise<any>((resolve, reject) => {
+       setTimeout(() => {
+         if (control.value === 'test@test.com') {
+-          resolve({ 'emailIsForbidden': true });
++          resolve({ emailIsForbidden: true });
+         } else {
+           resolve(null);
+         }
