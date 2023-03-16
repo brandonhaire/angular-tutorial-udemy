@@ -10,6 +10,7 @@ import { Post } from './post.model';
 })
 export class AppComponent implements OnInit {
   loadedPosts = [];
+  isFetching = false;
 
   constructor(private http: HttpClient) { }
 
@@ -26,11 +27,17 @@ export class AppComponent implements OnInit {
     });
   }
 
-  onFetchPosts() { this.fetchPosts(); }
+  onFetchPosts() { this.showPacMan(); this.fetchPosts(); }
+
+  showPacMan(){
+    this.isFetching = true;
+    setTimeout(() => {  this.isFetching = false;}, 1500);
+  }
 
   onClearPosts() { }
 
   private fetchPosts() {
+    // this.isFetching = true;
     this.http
       .get<{ [key: string]: Post }>('https://udemy-da4cd-default-rtdb.firebaseio.com/posts.json')
       .pipe(
@@ -46,6 +53,7 @@ export class AppComponent implements OnInit {
       )
       .subscribe(posts => {
         this.loadedPosts = posts;
+        // this.isFetching = false;
       });
   }
 }
