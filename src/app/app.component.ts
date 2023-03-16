@@ -20,7 +20,10 @@ export class AppComponent implements OnInit {
   }
 
   onCreatePost(postData: { title: string; content: string }) {
-    this.postsService.createAndStorePost(postData.title, postData.content);
+    this.postsService.createAndStorePost(postData.title, postData.content)
+    .subscribe(responseData => {
+      this.onFetchPosts();
+  });;
   }
 
   onFetchPosts() {
@@ -40,6 +43,10 @@ export class AppComponent implements OnInit {
     }, 1500);
   }
 
-  onClearPosts() { }
+  onClearPosts() {
+    this.postsService.deleteAllPosts().subscribe(() => {
+      this.loadedPosts = [];
+    });
+   }
 
 }

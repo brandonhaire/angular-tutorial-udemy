@@ -10,12 +10,10 @@ export class PostsService {
 
     createAndStorePost(title: string, content: string) {
         const postData: Post = { title: title, content: content };
-        this.http.post<{ name: string }>(
+        return this.http.post<{ name: string }>(
             'https://udemy-da4cd-default-rtdb.firebaseio.com/posts.json',
             postData
-        ).subscribe(responseData => {
-            console.log(responseData);
-        });
+        );
     }
 
     fetchPosts() {
@@ -32,5 +30,9 @@ export class PostsService {
                     return postsArray;
                 })
             );
+    }
+
+    deleteAllPosts() {
+        return this.http.delete('https://udemy-da4cd-default-rtdb.firebaseio.com/posts.json');
     }
 }
