@@ -6,6 +6,8 @@ export class AuthInterceptorService implements HttpInterceptor {
         //     throw new Error("Method not implemented.");
         // if (req.url){}   way to block requests from certian URLs 
         console.log('Request is on its way');
-        return next.handle(req);
+        console.log(req);
+        const modifiedRequest = req.clone({headers: req.headers.append('Auth', 'xyz')})
+        return next.handle(modifiedRequest);
     }
 }
