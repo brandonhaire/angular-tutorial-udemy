@@ -1,7 +1,7 @@
 import { Post } from './post.model';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpEventType, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Subject, catchError, throwError } from 'rxjs';
+import { map, Subject, catchError, throwError, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PostsService {
@@ -14,6 +14,7 @@ export class PostsService {
     return this.http.post<{ name: string }>(
       'https://udemy-da4cd-default-rtdb.firebaseio.com/posts.json',
       postData
+
     );
   }
   createAndStorePost2(title: string, content: string) {
@@ -21,9 +22,12 @@ export class PostsService {
     this.http
       .post<{ name: string }>(
         'https://udemy-da4cd-default-rtdb.firebaseio.com/posts.json',
-        postData
+        postData,
+        {
+          observe: 'response'
+        }
       )
-      .subscribe(() => {}, error => {this.error.next(error.message);});
+      .subscribe((responseData) => {console.log(responseData);}, error => {this.error.next(error.message);});
   }
 
   fetchPosts() {
@@ -57,7 +61,18 @@ export class PostsService {
 
   deleteAllPosts() {
     return this.http.delete(
-      'https://udemy-da4cd-default-rtdb.firebaseio.com/posts.json'
-    );
+      'https://udemy-da4cd-default-rtdb.firebaseio.com/posts.json',
+      {
+        observe: 'events'
+      }
+    ).pipe(tap(event => {
+      console.log(event);
+      if (event.type === HttpEventType.Sent) {
+        // we could now confirm request was sent and inform user that we are waiting on response 
+      }
+      if (event.type === HttpEventType.Response) {
+        console.log(event.body);
+      }
+    }));
   }
 }
