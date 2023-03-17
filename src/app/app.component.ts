@@ -12,6 +12,7 @@ import { PostsService } from './posts.service';
 export class AppComponent implements OnInit {
   loadedPosts = [];
   isFetching = false;
+  error = null;
 
   constructor(private postsService: PostsService) { }
 
@@ -33,6 +34,9 @@ export class AppComponent implements OnInit {
       setTimeout(() => {
         this.isFetching = false;
       }, 1500);
+    }, error => {
+      this.error = error.message;
+      console.log(error);
     });
   }
 

@@ -58,9 +58,13 @@
             <p>{{ post.content }}</p>
           </li>
         </ul>
-        <img *ngIf="isFetching" src="../assets/bean.gif"/>
+        <img *ngIf="isFetching && !error" src="../assets/bean.gif"/>
         <!-- <img *ngIf="isFetching" src="https://loading.io/asset/646199"/> -->
-        <p *ngIf="isFetching">Loading...</p>
+        <p *ngIf="isFetching && !error">Loading...</p>
+        <div class="alert alert-danger" *ngIf="error">
+          <h1>An Error Occurred!</h1>
+          <p>{{ error }}</p>
+        </div>
       </div>
     </div>
   </div>
