@@ -20,11 +20,16 @@ export class AppComponent implements OnInit {
     this.postsService.fetchPosts();
   }
 
+  createWithoutFetching(postData: {title: string; content: string}) {
+    this.postsService.createAndStorePost2(postData.title, postData.content);
+    console.log("createAndStorePost2()");
+  }
+
   onCreatePost(postData: { title: string; content: string }) {
     this.postsService.createAndStorePost(postData.title, postData.content)
     .subscribe(responseData => {
       this.onFetchPosts();
-  });;
+  });
   }
 
   onFetchPosts() {

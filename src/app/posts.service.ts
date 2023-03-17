@@ -15,6 +15,13 @@ export class PostsService {
             postData
         );
     }
+    createAndStorePost2(title: string, content: string) {
+        const postData: Post = { title: title, content: content };
+        this.http.post<{ name: string }>(
+            'https://udemy-da4cd-default-rtdb.firebaseio.com/posts.json',
+            postData
+        ).subscribe();
+    }
 
     fetchPosts() {
         return this.http

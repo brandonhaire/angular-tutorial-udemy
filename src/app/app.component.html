@@ -28,7 +28,15 @@
             type="submit"
             [disabled]="!postForm.valid"
           >
-            Send Post
+            Send & Fetch
+          </button>
+          |
+          <button
+            class="btn btn-default"
+            type="button"
+            [disabled]="!postForm.valid"
+            (click)="createWithoutFetching(postForm.value); postForm.reset();">
+          Send Post
           </button>
         </form>
       </div>
