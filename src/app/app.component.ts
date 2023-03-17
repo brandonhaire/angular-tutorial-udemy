@@ -21,7 +21,16 @@ export class AppComponent implements OnInit {
     this.errorSub = this.postsService.error.subscribe(errorMessage => {
       this.error = errorMessage;
     });
-    this.postsService.fetchPosts();
+    this.postsService.fetchPosts().subscribe(
+      posts => {
+        this.isFetching = false;
+        this.loadedPosts = posts;
+      },
+      error => {
+        this.isFetching = false;
+        this.error = error.message;
+      }
+    );
   }
 
   ngOnDestroy() {
@@ -50,8 +59,9 @@ export class AppComponent implements OnInit {
         }, 1500);
       },
       (error) => {
+        this.isFetching = false;
         this.error = error.message;
-        // console.log(error);
+        console.log(error);
       }
     );
   }
@@ -68,4 +78,9 @@ export class AppComponent implements OnInit {
       this.loadedPosts = [];
     });
   }
+
+  onHandleError(){
+    this.error = null;
+  }
+
 }
