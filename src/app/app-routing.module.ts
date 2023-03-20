@@ -9,6 +9,7 @@ import { UsersComponent } from "./users/users.component";
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from "./auth-guard.service";
 import { canDeactivateGuard } from "./servers/edit-server/can-deactivate-guard.service";
+import { ErrorPageComponent } from "./error-page/error-page.component";
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -27,7 +28,8 @@ const appRoutes: Routes = [
             { path: ':id/edit', component: EditServerComponent, canDeactivate: [canDeactivateGuard] }
         ]
     },
-    { path: 'not-found', component: PageNotFoundComponent },
+    // { path: 'not-found', component: PageNotFoundComponent },
+    { path: 'not-found', component: ErrorPageComponent, data: {message: 'Page not found!'} },
     { path: '**', redirectTo: '/not-found' }    //must be last route in array
 ];
 
