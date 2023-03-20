@@ -1,3 +1,4 @@
+import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 import { RecipesDetailComponent } from './recipes/recipes-detail/recipes-detail.component';
 import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
 import { NgModule } from '@angular/core';
@@ -9,7 +10,9 @@ const appRoutes: Routes = [
     { path: '', redirectTo: '/recipes', pathMatch: 'full' },
     { path: 'recipes' , component: RecipesComponent, children: [
         { path: '', component: RecipeStartComponent },
-        { path: ':id', component: RecipesDetailComponent }
+        { path: 'new', component: RecipeEditComponent },
+        { path: ':id', component: RecipesDetailComponent },
+        { path: ':id/edit', component: RecipeEditComponent }
     ] },
     { path: 'shopping-list' , component: ShoppingListComponent },
 ];
