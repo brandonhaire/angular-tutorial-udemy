@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { AuthInterceptorService } from './auth.-interceptor.service';
+import { AuthInterceptorService } from './auth-interceptor.service';
 import { LoggingInterceptorService } from './logging-interceptor.service';
 
 @NgModule({
