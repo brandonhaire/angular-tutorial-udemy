@@ -1,4 +1,4 @@
-import { Subscription } from 'rxjs-compat';
+import { Subscription } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Ingredient } from '../shared/inredient.model';
 import { ShoppingListService } from './shopping-list.service';

@@ -1,4 +1,4 @@
-import { Subscription } from 'rxjs-compat';
+import { Subscription } from 'rxjs';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Ingredient } from 'src/app/shared/inredient.model';
