@@ -1,7 +1,8 @@
 <h3>I'm in the AppComponent!</h3>
 <button class="btn btn-primary">Button should be Blue</button>
 <br>
-<button class="btn btn-success" (click)="open=true">Open Wizard</button>
+<button class="btn btn-inverse" style="background-color: black;" (click)="open=true">Open Wizard</button>
+<button class="btn btn-danger" (click)="this.resetFinalPage()">Reset</button>
 <clr-wizard #wizard [(clrWizardOpen)]="open" (clrWizardCurrentPageChanged)="resetFinalPage()">
     <clr-wizard-title>Async validation on completion</clr-wizard-title>
 
