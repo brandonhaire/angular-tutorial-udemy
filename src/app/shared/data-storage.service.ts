@@ -22,25 +22,47 @@ export class DataStorageService {
             );
     }
 
+//  after introducing auth.interceptor.service.ts
     fetchRecipes() {
-        return this.authService.user.pipe(
-            take(1),
-            exhaustMap(user => {
-                return this.http.get<Recipe[]>(this.apiURL, 
-                    {
-                        params: new HttpParams().set('auth', user.token)
+        return this.http
+            .get<Recipe[]>(
+                this.apiURL
+            )
+            .pipe(
+                map(recipes => {
+                    return recipes.map(recipe => {
+                        return {
+                            ...recipe,
+                            ingredients: recipe.ingredients ? recipe.ingredients : []
+                        };
                     });
-            }),
-            map(recipes => {
-                return recipes.map(recipe => {
-                    return {
-                        ...recipe, ingredients: recipe.ingredients ? recipe.ingredients : []
-                    };
-                });
-            }),
-            tap(recipes => {
-                this.recipeService.setRecipes(recipes);
-            })
-        );
+                }),
+                tap(recipes => {
+                    this.recipeService.setRecipes(recipes);
+                })
+            );
     }
+
+    // before using auth.interceptor.service.ts
+    // fetchRecipes() {
+    //     return this.authService.user.pipe(
+    //         take(1),
+    //         exhaustMap(user => {
+    //             return this.http.get<Recipe[]>(this.apiURL, 
+    //                 {
+    //                     params: new HttpParams().set('auth', user.token)
+    //                 });
+    //         }),
+    //         map(recipes => {
+    //             return recipes.map(recipe => {
+    //                 return {
+    //                     ...recipe, ingredients: recipe.ingredients ? recipe.ingredients : []
+    //                 };
+    //             });
+    //         }),
+    //         tap(recipes => {
+    //             this.recipeService.setRecipes(recipes);
+    //         })
+    //     );
+    // }
 }
