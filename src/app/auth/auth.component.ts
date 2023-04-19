@@ -32,10 +32,10 @@ export class AuthComponent {
                 setTimeout(() => {}, 2);
                 console.log(responseData);
                 this.isLoading = false;
-            }, error => {
+            }, errorMessage => {
                 setTimeout(() => {}, 2);
-                console.log(error);
-                this.error = 'An error occurred!';
+                console.log(errorMessage);
+                this.error = errorMessage;
                 this.isLoading = false;
             });
         }
