@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, catchError, tap, throwError } from "rxjs";
 import { User } from "./user.model";
 import { Router } from "@angular/router";
-
+import { environment } from "src/environments/environment";
 export interface AuthResponseData {
     kind: string;
     idToken: string;
@@ -14,8 +14,8 @@ export interface AuthResponseData {
     registered?: boolean;
 }
 
-const API_KEY = 'AIzaSyAm3_rXZRHMMUELexwCvvrcBiyfVC_OF_g ';
-
+// const API_KEY = 'AIzaSyAm3_rXZRHMMUELexwCvvrcBiyfVC_OF_g';
+const API_KEY = environment.firebaseAPIKey;
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
@@ -94,7 +94,7 @@ export class AuthService {
     }
 
     autoLogout(expirationDuration: number) {
-       this.tokenExpirationTimer = setTimeout(() => {
+        this.tokenExpirationTimer = setTimeout(() => {
             this.logout();
         }, expirationDuration);
     }
